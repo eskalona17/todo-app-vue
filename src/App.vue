@@ -1,17 +1,35 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>vue 3 Todo App</h1>
+  <form @submit.prevent="addNewTodo">
+    <label>New Todo</label>
+    <input v-model="newTodo" name="newTodo" />
+    <button>Add new Todo</button>
+  </form>
+  <ul>
+    <li v-for="todo in todos" :key="todo.id">
+      <h3>{{ todo.content }}</h3>
+    </li>
+  </ul>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { ref } from "vue";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  setup() {
+    const newTodo = ref("");
+    const todos = ref([]);
+
+    function addNewTodo() {
+      todos.value.push({
+        id: Date.now(),
+        done: false,
+        content: newTodo.value,
+      });
+    }
+
+    return { todos, newTodo, addNewTodo };
+  },
+};
 </script>
 
 <style>
